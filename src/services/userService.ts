@@ -1,8 +1,8 @@
 import { User } from "@prisma/client";
 import { userRepository } from "../repositories/userRepository.js";
 import bcrypt from 'bcrypt'
-import jwt from "jsonwebtoken"
-
+import {v1 as tokenGenerator} from 'uuid'
+import { sessionRepository } from "../repositories/sessionRepository.js";
 export type UserData=Omit<User,'id'>
 
 async function signUp(data:UserData) {
@@ -15,7 +15,8 @@ async function signIn(data:UserData) {
     const user=await userRepository.findByName(data.name)
     if(!user)throw{type:'not found'}
     if(!bcrypt.compareSync(data.password,user.password))throw{type:'unauthorized'}
-    const token = jwt.sign({ userId: user.id },process.env.JWT_SECRET||'')
+    const token=tokenGenerator()
+    await sessionRepository.post({token,userId:user.id})
     return {token,user}
 }
 
