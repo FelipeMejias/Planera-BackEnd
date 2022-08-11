@@ -9,13 +9,21 @@ async function post(req:Request,res:Response) {
     res.sendStatus(201)
 }
 
-async function get(req:Request,res:Response) {
+async function getHabits(req:Request,res:Response) {
     const groupId=parseInt(req.params.groupId)
     const {chosen}=req.body
-    const response=await allowService.get(groupId,chosen)
+    const response=await allowService.getHabits(groupId,chosen)
     res.status(200).send(response)
 }
 
+async function getAllows(req:Request,res:Response) {
+    const groupId=parseInt(req.params.groupId)
+    const {id}=res.locals.user
+    const response=await allowService.getAllows(groupId,id)
+    res.status(200).send(response)
+}
+
+
 export const allowController={
-    post,get
+    post,getHabits,getAllows
 }

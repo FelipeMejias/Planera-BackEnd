@@ -14,18 +14,34 @@ async function get(req:Request,res:Response) {
     res.status(200).send(response)
 }
 
-async function put(req:Request,res:Response) {
+async function changeColor(req:Request,res:Response) {
     const {id:userId}=res.locals.user
-    const invitationId=parseInt(req.params.id)
-    await userGroupService.put(invitationId,userId)
+    const groupId=parseInt(req.params.groupId)
+    const {color}=req.body
+    await userGroupService.changeColor(color,groupId,userId)
     res.sendStatus(200)
 }
+
+async function acept(req:Request,res:Response) {
+    const {id:userId}=res.locals.user
+    const invitationId=parseInt(req.params.id)
+    await userGroupService.acept(invitationId,userId)
+    res.sendStatus(200)
+}
+async function reject(req:Request,res:Response) {
+    const {id:userId}=res.locals.user
+    const invitationId=parseInt(req.params.id)
+    await userGroupService.reject(invitationId,userId)
+    res.sendStatus(200)
+}
+
 async function erase(req:Request,res:Response) {
     const {id:userId}=res.locals.user
-    const invitationId=parseInt(req.params.id)
-    await userGroupService.erase(invitationId,userId)
+    const groupId=parseInt(req.params.groupId)
+    await userGroupService.exitGroup(groupId,userId)
     res.sendStatus(200)
 }
+
 export const userGroupController={
-    post,get,put,erase
+    post,get,changeColor,acept,reject,erase
 }

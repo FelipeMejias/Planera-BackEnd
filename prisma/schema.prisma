@@ -11,13 +11,13 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name    String @unique
-  password String
-  habit Habit[]
-  session Session[]
+  id        Int    @id @default(autoincrement())
+  name      String @unique
+  password  String
+  habit     Habit[]
+  session   Session[]
   userGroup UserGroup[]
-  allow Allow[]
+  allow     Allow[]
 
   @@map("user")
 }
@@ -44,21 +44,23 @@ model Session {
   @@map("session")
 }
 model Group{
-  id       Int    @id @default(autoincrement())
-  name    String @unique
+  id        Int    @id @default(autoincrement())
+  name      String @unique
   userGroup UserGroup[]
-  alow  Allow[]
+  alow      Allow[]
 
   @@map("group")
 }
 model UserGroup {
-  id       Int    @id @default(autoincrement())
-  user     User   @relation(fields:[userId],references:[id])
-  userId   Int
-  group     Group   @relation(fields:[groupId],references:[id])
-  groupId   Int
+  id      Int     @id @default(autoincrement())
+  user    User    @relation(fields:[userId],references:[id])
+  userId  Int
+  group   Group   @relation(fields:[groupId],references:[id])
+  groupId Int
   acepted Boolean @default(false)
-  color String @default("white")
+  color   String  @default("orange")
+
+  @@unique([userId,groupId])
   @@map("userGroup")
 }
 model Allow {
@@ -67,8 +69,9 @@ model Allow {
   userId   Int
   group     Group   @relation(fields:[groupId],references:[id])
   groupId   Int
-  color String
-  tag String
+  color     String
+  tag      String @default("")
+
   @@unique([userId,groupId,color])
   @@map("allow")
 }

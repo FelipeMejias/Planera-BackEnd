@@ -12,8 +12,12 @@ async function findByName(name:string) {
     })
 }
 
-
+async function erase(id:number) {
+    await prisma.group.delete({
+        where:{id}
+    })
+}
 
 export const groupRepository={
-    post,findByName
+    post,findByName,erase
 }

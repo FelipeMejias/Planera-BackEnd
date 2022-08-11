@@ -1,3 +1,4 @@
+import { groupRepository } from "../repositories/groupRepository.js"
 import { userGroupRepository } from "../repositories/userGroupRepository.js"
 import { userRepository } from "../repositories/userRepository.js"
 
@@ -14,14 +15,29 @@ async function get(userId:number) {
     return {groupName:group.name,invitationId:id}
 }
 
-async function put(invitationId:number,userId:number) {
+async function changeColor(color:string,groupId:number,userId:number) {
+    await userGroupRepository.changeColor(color,groupId,userId)
+}
+
+async function acept(invitationId:number,userId:number) {
     await userGroupRepository.acept(invitationId)
 }
 
-async function erase(invitationId:number,userId:number) {
-    await userGroupRepository.erase(invitationId)
+async function reject(invitationId:number,userId:number) {
+    await userGroupRepository.eraseById(invitationId)
 }
 
+async function exitGroup(groupId:number,userId:number) {
+    await userGroupRepository.eraseBy_User_Group(groupId,userId)
+    const members=await userGroupRepository.getAllInGroup(groupId)
+    if(members.length===0){
+        await userGroupRepository.eraseAll(groupId)
+        await groupRepository.erase(groupId)
+    } 
+}
+
+
+
 export const userGroupService={
-    post,get,put,erase
+    post,get,changeColor,acept,reject,exitGroup
 }

@@ -39,12 +39,44 @@ async function acept(invitationId:number) {
         where:{id:invitationId}
     })
 }
-async function erase(invitationId:number) {
+
+async function changeColor(color:string,groupId:number,userId:number){
+    await prisma.userGroup.update({
+        data:{
+            color
+        },
+        where:{userId_groupId:{
+            groupId,userId
+        }}
+    })
+}
+
+async function eraseById(invitationId:number) {
     await prisma.userGroup.delete({
         where:{id:invitationId}
     })
 }
 
+async function eraseBy_User_Group(groupId:number,userId:number) {
+    await prisma.userGroup.delete({
+        where:{
+            userId_groupId:{
+                groupId,
+                userId
+            }
+        }
+    })
+}
+
+async function eraseAll(groupId:number) {
+    await prisma.userGroup.deleteMany({
+        where:{groupId}
+    })
+}
+
 export const userGroupRepository={
-    insertCreator,insert,getGroups,getAllInGroup,getFirstInvitation,acept,erase
+    insertCreator,insert,
+    getGroups,getAllInGroup,getFirstInvitation,
+    acept,changeColor,
+    eraseById,eraseBy_User_Group,eraseAll
 }

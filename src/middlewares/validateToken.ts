@@ -11,6 +11,5 @@ export async function validateToken(req:Request,res:Response,next:NextFunction) 
     delete user.password
     res.locals.user = user
 
-    console.log(token)
     next();
 }

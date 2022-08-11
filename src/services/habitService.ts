@@ -21,7 +21,7 @@ async function put(data:any,userId:number,id:number) {
     const {begin,end}=data
     let finalData=data
     if(begin || end)finalData=graphicMark(data)
-    await habitRepository.put(data,id)
+    await habitRepository.put(finalData,id)
 }
 
 async function erase(userId:number,id:number) {

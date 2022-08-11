@@ -10,7 +10,6 @@ async function post(req:Request,res:Response) {
 async function getAll(req:Request,res:Response) {
     const {id}=res.locals.user
     const response=await groupService.getAll(id)
-    console.log(response)
     res.status(200).send(response)
 }
 async function get(req:Request,res:Response) {
