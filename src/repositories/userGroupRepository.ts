@@ -1,42 +1,73 @@
 import { prisma } from "../database.js";
 
+
 async function insertCreator(groupId:number,userId:number) {
     await prisma.userGroup.create({
-        data:{groupId,userId,acepted:true}
+        data:{
+            acepted:true,
+            groupId,
+            userId
+        }
     })
 }
 
 async function getFirstInvitation(userId:number) {
     return await prisma.userGroup.findFirst({
-        include:{group:true},
-        where:{userId,acepted:false}
+        include:{
+            group:true
+        },
+        where:{
+            userId,acepted:false
+        }
     })
 }
 
-async function insert(groupId:number,guestId:number) {
+async function insert(groupId:number,userId:number) {
     await prisma.userGroup.create({
-        data:{groupId,userId:guestId,acepted:false}
+        data:{groupId,userId}
     })
 }
 
 async function getGroups(userId:number) {
     return await prisma.userGroup.findMany({
-        include:{group:true},
-        where:{userId,acepted:true}
+        include:{
+            group:true
+        },
+        where:{
+            userId,acepted:true
+        }
     })
 }
 
 async function getAllInGroup(groupId:number) {
     return await prisma.userGroup.findMany({
-        include:{group:true,user:true},
-        where:{groupId,acepted:true}
+        include:{
+            group:true,
+            user:true
+        },
+        where:{
+            groupId,
+            acepted:true
+        }
     })
 }
 
-async function acept(invitationId:number) {
+async function getPendent(groupId:number) {
+    return await prisma.userGroup.findMany({
+        include:{
+            user:true
+        },
+        where:{
+            groupId,
+            acepted:false
+        }
+    })
+}
+
+async function acept(id:number) {
     await prisma.userGroup.update({
         data:{acepted:true},
-        where:{id:invitationId}
+        where:{id}
     })
 }
 
@@ -45,15 +76,18 @@ async function changeColor(color:string,groupId:number,userId:number){
         data:{
             color
         },
-        where:{userId_groupId:{
+        where:{
+            userId_groupId:{
             groupId,userId
         }}
     })
 }
 
-async function eraseById(invitationId:number) {
+async function eraseById(id:number) {
     await prisma.userGroup.delete({
-        where:{id:invitationId}
+        where:{
+            id
+        }
     })
 }
 
@@ -76,7 +110,7 @@ async function eraseAll(groupId:number) {
 
 export const userGroupRepository={
     insertCreator,insert,
-    getGroups,getAllInGroup,getFirstInvitation,
+    getGroups,getAllInGroup,getFirstInvitation,getPendent,
     acept,changeColor,
     eraseById,eraseBy_User_Group,eraseAll
 }

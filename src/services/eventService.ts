@@ -1,6 +1,6 @@
 import { eventRepository } from "../repositories/eventRepository.js"
 import { userEventRepository } from "../repositories/userEventRepository.js"
-import { graphicMark } from "../utils/graphicConverter.js"
+import { graphicMark } from "../utils/habitEventUtil.js"
 
 async function post(data:any,groupId:number) {
     const {chosen,title}=data

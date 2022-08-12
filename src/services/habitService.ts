@@ -1,6 +1,6 @@
 import { Habit } from "@prisma/client";
 import { habitRepository } from "../repositories/habitRepository.js";
-import { graphicMark } from "../utils/graphicConverter.js";
+import { graphicMark } from "../utils/habitEventUtil.js";
 
 export type HabitData={
     title:string;

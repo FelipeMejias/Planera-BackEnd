@@ -60,6 +60,7 @@ model UserGroup {
   group   Group   @relation(fields:[groupId],references:[id])
   groupId Int
   acepted Boolean @default(false)
+
   color   String  @default("orange")
 
   @@unique([userId,groupId])

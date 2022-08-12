@@ -15,6 +15,12 @@ async function get(userId:number) {
     return {groupName:group.name,invitationId:id}
 }
 
+async function getPendent(groupId:number) {
+    const pendents= await userGroupRepository.getPendent(groupId)
+    const pendentNames=pendents.map((ug:any)=>(ug.user.name))
+    return pendentNames
+}
+
 async function changeColor(color:string,groupId:number,userId:number) {
     await userGroupRepository.changeColor(color,groupId,userId)
 }
@@ -39,5 +45,5 @@ async function exitGroup(groupId:number,userId:number) {
 
 
 export const userGroupService={
-    post,get,changeColor,acept,reject,exitGroup
+    post,get,changeColor,getPendent,acept,reject,exitGroup
 }

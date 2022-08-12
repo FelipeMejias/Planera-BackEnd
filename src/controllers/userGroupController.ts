@@ -14,6 +14,12 @@ async function get(req:Request,res:Response) {
     res.status(200).send(response)
 }
 
+async function getPendent(req:Request,res:Response) {
+    const groupId=parseInt(req.params.groupId)
+    const response=await userGroupService.getPendent(groupId)
+    res.status(200).send(response)
+}
+
 async function changeColor(req:Request,res:Response) {
     const {id:userId}=res.locals.user
     const groupId=parseInt(req.params.groupId)
@@ -43,5 +49,5 @@ async function erase(req:Request,res:Response) {
 }
 
 export const userGroupController={
-    post,get,changeColor,acept,reject,erase
+    post,get,changeColor,getPendent,acept,reject,erase
 }

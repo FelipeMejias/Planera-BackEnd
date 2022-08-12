@@ -1,15 +1,15 @@
 
 export function graphicMark(item:any){
     const {begin,end}=item
-    const graphBegin=Math.round(convertTime(begin))
-    const graphEnd=Math.round(convertTime(end))
+    const graphBegin=Math.round(convertTime(begin)*100)
+    const graphEnd=Math.round(convertTime(end)*100)
     const distance=graphEnd-graphBegin
     if(distance<=0)throw{type:'bad request'}
     return {...item,
         begin:formatTime(begin),
         end:formatTime(end),
-        floor:graphBegin*100,
-        size:(distance)*100
+        floor:graphBegin,
+        size:(distance)
     }
 }
 
@@ -27,4 +27,20 @@ function convertTime(str:string){
     if(len===4)return parseInt(str[0])+parseInt(str[2]+str[3])/60
     if(len===2)return parseInt(str[0]+str[1])
     if(len===1)return parseInt(str[0])
+}
+
+export function concat_orderByFloor(l1:any[],l2:any[]){
+    let i1=0
+    let i2=0
+    const resp=[]
+    for(let k=1;k<=l1.length+l2.length;k++){
+        if(l1[i1].floor<=l2[i2].floor){
+            resp.push(l1[i1])
+            i1++
+        }else{
+            resp.push(l2[i2])
+            i2++
+        }
+    }
+    return resp
 }

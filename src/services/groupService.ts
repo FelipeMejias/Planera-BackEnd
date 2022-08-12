@@ -9,8 +9,8 @@ async function post(data:any,userId:number) {
 
 async function getAll(userId:number) {
     const userGroups= await userGroupRepository.getGroups(userId)
-    return userGroups.map((userGroup)=>{
-        const {group,color}=userGroup
+    return userGroups.map(ug=>{
+        const {group,color}=ug
         return {...group,color}
     })
 }
