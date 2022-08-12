@@ -18,6 +18,7 @@ model User {
   session   Session[]
   userGroup UserGroup[]
   allow     Allow[]
+  userEvent UserEvent[]
 
   @@map("user")
 }
@@ -28,7 +29,7 @@ model Habit {
   begin    String
   end      String
   size     Int
-  floor Int
+  floor   Int
   user     User   @relation(fields:[userId],references:[id])
   userId   Int
   color    String @default("blue")
@@ -45,9 +46,10 @@ model Session {
 }
 model Group{
   id        Int    @id @default(autoincrement())
-  name      String @unique
+  name      String
   userGroup UserGroup[]
   alow      Allow[]
+  event     Event[]
 
   @@map("group")
 }
@@ -74,4 +76,30 @@ model Allow {
 
   @@unique([userId,groupId,color])
   @@map("allow")
+}
+model Event {
+  id       Int    @id @default(autoincrement())
+  title    String 
+  day      Int
+  begin    String
+  end      String
+  size     Int
+  floor     Int
+
+  group     Group   @relation(fields:[groupId],references:[id])
+  groupId   Int
+  userEvent UserEvent[]
+
+  @@unique([groupId,title])
+  @@map("event")
+}
+model UserEvent {
+  id      Int     @id @default(autoincrement())
+  user    User    @relation(fields:[userId],references:[id])
+  userId  Int
+  event   Event   @relation(fields:[eventId],references:[id])
+  eventId Int
+
+  @@unique([userId,eventId])
+  @@map("userEvent")
 }

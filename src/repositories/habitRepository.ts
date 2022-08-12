@@ -19,14 +19,21 @@ async function put(data:any,id:number) {
     })
 }
 
-
 async function erase(id:number) {
     await prisma.habit.delete({
         where:{id}
     })
 }
 
+async function getHabitsByGroup(groupId:number) {
+    return await prisma.$queryRaw`
+        SELECT h.title , h.begin , h.end , h.floor , h.size , h.day , h."userId" , a.color , a.tag 
+        FROM habit h
+        JOIN allow a ON a.color=h.color AND a."userId"=h."userId"
+        WHERE a."groupId"=${groupId};
+    `
+}
 
 export const habitRepository={
-    post,get,put,erase
+    post,get,put,erase,getHabitsByGroup
 }

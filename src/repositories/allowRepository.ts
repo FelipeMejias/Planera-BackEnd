@@ -17,16 +17,6 @@ async function upsert(color:string,tag:string,groupId:number,userId:number) {
     })
 }
 
-async function getHabitsByGroup(groupId:number) {
-    const result=await prisma.$queryRaw`
-        SELECT h.title , h.begin , h.end , h.floor , h.size , h.day , h."userId" , a.color , a.tag 
-        FROM habit h
-        JOIN allow a ON a.color=h.color AND a."userId"=h."userId"
-        WHERE a."groupId"=${groupId};
-    `
-    return result
-}
-
 async function getGroupAllows(groupId:number,userId:number) {
     return await prisma.allow.findMany({
         where:{groupId,userId}
@@ -40,5 +30,5 @@ async function erase(id:number) {
 }
 
 export const allowRepository={
-    upsert,getHabitsByGroup,getGroupAllows,getColorAllowForUser,erase
+    upsert,getGroupAllows,getColorAllowForUser,erase
 }
