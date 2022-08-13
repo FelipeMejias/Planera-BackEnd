@@ -2,6 +2,8 @@ import { groupRepository } from "../repositories/groupRepository.js"
 import { userGroupRepository } from "../repositories/userGroupRepository.js"
 import { userRepository } from "../repositories/userRepository.js"
 
+export type GroupColors='orange'|'pink'|'aqua'
+
 async function post(groupId:number,guest:string) {
     const user= await userRepository.findByName(guest)
     if(!user)throw {type:'not found'}
@@ -21,7 +23,7 @@ async function getPendent(groupId:number) {
     return pendentNames
 }
 
-async function changeColor(color:string,groupId:number,userId:number) {
+async function changeColor(color:GroupColors,groupId:number,userId:number) {
     await userGroupRepository.changeColor(color,groupId,userId)
 }
 

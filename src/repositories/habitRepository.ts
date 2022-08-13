@@ -1,8 +1,24 @@
 import { prisma } from "../database.js";
+import { ChangeHabitData, HabitData } from "../services/habitService.js";
 
-async function post(data:any,userId:number) {
+export type GraphicData={
+    title:string;
+    day :number;
+    begin:string;
+    end:string;
+    floor:number;
+    size:number;
+}
+
+async function post(data:GraphicData,userId:number) {
     await prisma.habit.create({
         data:{...data,userId}
+    })
+}
+
+async function findById(id:number){
+    return await prisma.habit.findUnique({
+        where:{id}
     })
 }
 
@@ -13,7 +29,7 @@ async function get(userId:number) {
     })
 }
 
-async function put(data:any,id:number) {
+async function put(data:ChangeHabitData,id:number) {
     await prisma.habit.update({
         data,
         where:{id}
@@ -28,9 +44,8 @@ async function erase(id:number) {
 
 async function getHabitsByGroup(groupId:number) {
     return await prisma.$queryRaw`
-        SELECT h.title , h.begin , h.end , h.floor , h.size , h.day , u.name , a.color , a.tag 
+        SELECT h.title , h.begin , h.end , h.floor , h.size , h.day  , a.color , a.tag , h."userId"
         FROM habit h
-        JOIN user u ON u.id= h."userId"
         JOIN allow a ON a.color=h.color AND a."userId"=h."userId"
         WHERE a."groupId"=${groupId}
         ORDER BY h.floor
@@ -39,5 +54,5 @@ async function getHabitsByGroup(groupId:number) {
 }
 
 export const habitRepository={
-    post,get,put,erase,getHabitsByGroup
+    post,get,put,erase,getHabitsByGroup,findById
 }

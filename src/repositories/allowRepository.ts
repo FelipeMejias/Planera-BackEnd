@@ -1,8 +1,12 @@
 import { prisma } from "../database.js";
 
-async function getColorAllowForUser(color:string,groupId:number,userId:number) {
-    return await prisma.allow.findFirst({
-        where:{color,groupId,userId}
+async function getMyColorAllowByGroup(color:string,groupId:number,userId:number) {
+    return await prisma.allow.findUnique({
+        where:{
+            userId_groupId_color:{
+                color,groupId,userId
+            }
+        }
     })
 }
 
@@ -17,7 +21,7 @@ async function upsert(color:string,tag:string,groupId:number,userId:number) {
     })
 }
 
-async function getGroupAllows(groupId:number,userId:number) {
+async function getMyAllowsByGroup(groupId:number,userId:number) {
     return await prisma.allow.findMany({
         where:{groupId,userId}
     })
@@ -30,5 +34,7 @@ async function erase(id:number) {
 }
 
 export const allowRepository={
-    upsert,getGroupAllows,getColorAllowForUser,erase
+    upsert,
+    getMyAllowsByGroup,getMyColorAllowByGroup,
+    erase
 }

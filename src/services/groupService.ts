@@ -1,7 +1,11 @@
 import { groupRepository } from "../repositories/groupRepository.js"
 import { userGroupRepository } from "../repositories/userGroupRepository.js"
 
-async function post(data:any,userId:number) {
+export type GroupData={
+    name:string;
+}
+
+async function post(data:GroupData,userId:number) {
     await groupRepository.post(data,userId)
     const {id}=await groupRepository.findByName(data.name)
     await userGroupRepository.insertCreator(id,userId)

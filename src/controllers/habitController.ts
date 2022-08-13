@@ -15,17 +15,15 @@ async function get(req:Request,res:Response) {
 }
 
 async function put(req:Request,res:Response) {
-    const {id}=req.params
-    const {user}=res.locals
+    const id=parseInt(req.params.id)
     const data=req.body
-    await habitService.put(data,user.id,parseInt(id))
+    await habitService.put(data,id)
     res.sendStatus(200)
 }
 
 async function erase(req:Request,res:Response) {
-    const {id}=req.params
-    const {user}=res.locals
-    await habitService.erase(user.id,parseInt(id))
+    const id=parseInt(req.params.id)
+    await habitService.erase(id)
     res.sendStatus(200)
 }
 

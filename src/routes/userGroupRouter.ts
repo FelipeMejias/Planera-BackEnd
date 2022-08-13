@@ -1,14 +1,18 @@
 import Router from 'express'
 import { userGroupController } from '../controllers/userGroupController.js'
+import { checkGroupMembership } from '../middlewares/checkGroupMembership.js'
 
 const userGroupRouter=Router()
 
-userGroupRouter.post('/userGroup/:groupId',userGroupController.post)
+userGroupRouter.post('/userGroup/:groupId',checkGroupMembership,userGroupController.post)
+
 userGroupRouter.get('/userGroup',userGroupController.get)
-userGroupRouter.get('/userGroup/:groupId',userGroupController.getPendent)
-userGroupRouter.put('/userGroup/:groupId',userGroupController.changeColor)
 userGroupRouter.put('/userGroup/:id/acept',userGroupController.acept)
 userGroupRouter.delete('/userGroup/:id/reject',userGroupController.reject)
-userGroupRouter.delete('/userGroup/:groupId',userGroupController.erase)
+
+userGroupRouter.get('/userGroup/:groupId',checkGroupMembership,userGroupController.getPendent)
+userGroupRouter.put('/userGroup/:groupId',checkGroupMembership,userGroupController.changeColor)
+userGroupRouter.delete('/userGroup/:groupId',checkGroupMembership,userGroupController.erase)
+
 
 export default userGroupRouter

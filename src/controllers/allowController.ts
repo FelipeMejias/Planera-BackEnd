@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { allowService } from "../services/allowService.js";
 
+
+
 async function post(req:Request,res:Response) {
     const data=req.body
     const {user}=res.locals
@@ -19,7 +21,7 @@ async function getHabits(req:Request,res:Response) {
 async function getAllows(req:Request,res:Response) {
     const groupId=parseInt(req.params.groupId)
     const {id}=res.locals.user
-    const response=await allowService.getAllows(groupId,id)
+    const response=await allowService.getMyAllowsByGroup(groupId,id)
     res.status(200).send(response)
 }
 

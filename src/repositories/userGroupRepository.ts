@@ -1,5 +1,15 @@
 import { prisma } from "../database.js";
+import { GroupColors } from "../services/userGroupService.js";
 
+async function findBy_User_Group(groupId:number,userId:number) {
+    await prisma.userGroup.findUnique({
+        where:{
+            userId_groupId:{
+                groupId,userId
+            }
+        }
+    })
+}
 
 async function insertCreator(groupId:number,userId:number) {
     await prisma.userGroup.create({
@@ -71,7 +81,7 @@ async function acept(id:number) {
     })
 }
 
-async function changeColor(color:string,groupId:number,userId:number){
+async function changeColor(color:GroupColors,groupId:number,userId:number){
     await prisma.userGroup.update({
         data:{
             color
@@ -110,7 +120,7 @@ async function eraseAll(groupId:number) {
 
 export const userGroupRepository={
     insertCreator,insert,
-    getGroups,getAllInGroup,getFirstInvitation,getPendent,
+    getGroups,getAllInGroup,getFirstInvitation,getPendent,findBy_User_Group,
     acept,changeColor,
     eraseById,eraseBy_User_Group,eraseAll
 }

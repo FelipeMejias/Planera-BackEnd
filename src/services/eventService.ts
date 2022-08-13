@@ -2,7 +2,15 @@ import { eventRepository } from "../repositories/eventRepository.js"
 import { userEventRepository } from "../repositories/userEventRepository.js"
 import { graphicMark } from "../utils/habitEventUtil.js"
 
-async function post(data:any,groupId:number) {
+export type EventData={
+    title:string;
+    begin:string;
+    end:string;
+    day:number;
+    chosen:number[];
+}
+
+async function post(data:EventData,groupId:number) {
     const {chosen,title}=data
     delete data.chosen
     const graphicData=graphicMark(data)

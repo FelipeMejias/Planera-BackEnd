@@ -13,8 +13,8 @@ async function getAll(req:Request,res:Response) {
     res.status(200).send(response)
 }
 async function get(req:Request,res:Response) {
-    const {id}=req.params
-    const response=await groupService.get(parseInt(id))
+    const groupId=parseInt(req.params.groupId)
+    const response=await groupService.get(groupId)
     res.status(200).send(response)
 }
 

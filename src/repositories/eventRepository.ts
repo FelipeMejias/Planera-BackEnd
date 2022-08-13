@@ -1,6 +1,17 @@
 import { prisma } from "../database.js";
 
-async function post(data:any) {
+ type GraphicEventData={
+    title:string;
+    begin:string;
+    end:string;
+    day:number;
+    floor:number;
+    size:number;
+    groupId:number;
+}
+
+
+async function post(data:GraphicEventData) {
     await prisma.event.create({
         data
     })
@@ -16,10 +27,10 @@ async function findBy_groupId_title(title:string,groupId:number) {
 
 async function getEventsByGroup(groupId:number) {
     return await prisma.$queryRaw`
-        SELECT e.id, e.title , e.begin , e.end , e.floor , e.size , e.day  , ug1.color , a.tag , u.name
+        SELECT e.id, e.title , e.begin , e.end , e.floor , e.size , e.day  , ug1.color , a.tag, ue."userId" 
         FROM event e
         JOIN "userEvent" ue ON ue."eventId"=e.id
-        JOIN user u ON u.id=ue."userId"
+        
         JOIN "userGroup" ug1 ON ug1."userId"=ue."userId" AND ug1."groupId"=e."groupId"
         JOIN "userGroup" ug2 ON ug2."userId"=ue."userId" AND ug2."groupId"=${groupId}
         JOIN allow a ON a.color=ug2.color AND a."userId"=ue."userId" AND a."groupId"=${groupId}

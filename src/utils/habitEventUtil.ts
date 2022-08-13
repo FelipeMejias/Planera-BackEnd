@@ -33,7 +33,11 @@ export function concat_orderByFloor(l1:any[],l2:any[]){
     let i1=0
     let i2=0
     const resp=[]
+    if(l1.length===0)return l2
+    if(l2.length===0)return l1
     for(let k=1;k<=l1.length+l2.length;k++){
+        if(i1===l1.length){resp.push(l2[i2]);i2++;continue;}
+        if(i2===l2.length){resp.push(l1[i1]);i1++;continue;}
         if(l1[i1].floor<=l2[i2].floor){
             resp.push(l1[i1])
             i1++

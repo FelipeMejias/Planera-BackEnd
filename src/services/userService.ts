@@ -3,6 +3,7 @@ import { userRepository } from "../repositories/userRepository.js";
 import bcrypt from 'bcrypt'
 import {v1 as tokenGenerator} from 'uuid'
 import { sessionRepository } from "../repositories/sessionRepository.js";
+
 export type UserData=Omit<User,'id'>
 
 async function signUp(data:UserData) {
