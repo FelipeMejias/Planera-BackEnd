@@ -4,11 +4,11 @@ import { userGroupService } from "../services/userGroupService.js";
 async function post(req:Request,res:Response) {
     const {guest}=req.body
     const {groupId}=req.params
-    await userGroupService.post(parseInt(groupId),guest)
+    await userGroupService.addMember(parseInt(groupId),guest)
     res.sendStatus(201)
 }
 
-async function get(req:Request,res:Response) {
+async function getMyGroups(req:Request,res:Response) {
     const {id}=res.locals.user
     const response=await userGroupService.get(id)
     res.status(200).send(response)
@@ -49,5 +49,5 @@ async function erase(req:Request,res:Response) {
 }
 
 export const userGroupController={
-    post,get,changeColor,getPendent,acept,reject,erase
+    post,getMyGroups,changeColor,getPendent,acept,reject,erase
 }

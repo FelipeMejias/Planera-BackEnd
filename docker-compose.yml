@@ -1,0 +1,26 @@
+version: "3"
+services:
+  db_planera:
+    image: postgres
+    container_name: db_planera
+    restart: always 
+    ports:
+      - 1234:5432
+    volumes:
+      - pg:/var/lib/postgresql/data
+    env_file:
+      - .env.docker
+
+  node_app_planera:
+    image: node
+    container_name: node_app_planera
+    build: .
+    ports:
+      - 5738:5000
+    depends_on:
+      - db_planera
+    env_file:
+      - .env.docker
+
+volumes:
+  pg:

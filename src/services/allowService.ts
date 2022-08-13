@@ -1,3 +1,4 @@
+import { QueryResultRow } from "pg";
 import { allowRepository } from "../repositories/allowRepository.js";
 import { eventRepository } from "../repositories/eventRepository.js";
 import { habitRepository } from "../repositories/habitRepository.js";
@@ -24,12 +25,12 @@ async function getHabits(groupId:number,chosen:number[]) {
     const habits:any= await habitRepository.getHabitsByGroup(groupId)
     const events:any= await eventRepository.getEventsByGroup(groupId)
     const habits_events=concat_orderByFloor(habits,events)
-    const chosenOnes=habits_events.filter((habit:any)=>chosen.includes(habit.userId))
+    const chosenOnes=habits_events.filter((habit:QueryResultRow)=>chosen.includes(habit.userId))
     return chosenOnes
 }
 
 async function getMyAllowsByGroup(groupId:number,userId:number) {
-    const allows:any= await allowRepository.getMyAllowsByGroup(groupId,userId)
+    const allows:QueryResultRow[]= await allowRepository.getMyAllowsByGroup(groupId,userId)
     return allows
 }
 

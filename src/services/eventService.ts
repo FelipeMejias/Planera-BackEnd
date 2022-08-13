@@ -22,9 +22,27 @@ async function post(data:EventData,groupId:number) {
 }
 
 async function getUserEvents(userId:number) {
-    return await userEventRepository.get(userId)
+    return await eventRepository.getMyEvents(userId)
 }
 
+async function eraseUserEvent(userId:number,eventId:number) {
+    await userEventRepository.erase(userId,eventId)
+    ifEmpty_deleteEvent
+}
+
+async function ifEmpty_deleteEvent(eventId:number) {
+    const participants=await userEventRepository.getAllInEvent(eventId)
+    if(participants.length===0){
+        await eventRepository.erase(eventId)
+    } 
+}
+
+async function getParticipants(eventId:number) {
+    const result= await userEventRepository.getAllInEvent(eventId)
+    return result.map(ue=>(ue.user.name))
+}
+
+
 export const eventService={
-    post,getUserEvents
+    post,getUserEvents,eraseUserEvent,getParticipants
 }

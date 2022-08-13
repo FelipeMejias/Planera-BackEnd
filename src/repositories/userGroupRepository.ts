@@ -2,7 +2,7 @@ import { prisma } from "../database.js";
 import { GroupColors } from "../services/userGroupService.js";
 
 async function findBy_User_Group(groupId:number,userId:number) {
-    await prisma.userGroup.findUnique({
+    return await prisma.userGroup.findUnique({
         where:{
             userId_groupId:{
                 groupId,userId

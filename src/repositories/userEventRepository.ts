@@ -4,18 +4,27 @@ async function insertMany(data:any) {
     await prisma.userEvent.createMany({data})
 }
 
-async function get(userId:number) {
-    return await prisma.$queryRaw`
-        SELECT e.* , ug.color, ug.color
-        FROM "userEvent" ue
-        JOIN event e ON e.id=ue."eventId"
-        JOIN "userGroup" ug ON ug."groupId"=e."groupId" AND ug."userId"=${userId}
-        WHERE ue."userId"=${userId}
-        ORDER BY e.floor
-        ;
-    `
+async function erase(userId:number,eventId:number) {
+    await prisma.userEvent.delete({
+        where:{
+            userId_eventId:{
+                userId,eventId
+            }
+        }
+    })
+}
+
+async function getAllInEvent(eventId:number) {
+    return await prisma.userEvent.findMany({
+        include:{
+            user:true
+        },
+        where:{
+            eventId
+        }
+    })
 }
 
 export const userEventRepository={
-    insertMany,get
+    insertMany,erase,getAllInEvent
 }

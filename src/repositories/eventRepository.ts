@@ -25,9 +25,21 @@ async function findBy_groupId_title(title:string,groupId:number) {
     })
 }
 
+async function getMyEvents(userId:number) {
+    return await prisma.$queryRaw`
+        SELECT e.* , ug.color, ug.color
+        FROM "userEvent" ue
+        JOIN event e ON e.id=ue."eventId"
+        JOIN "userGroup" ug ON ug."groupId"=e."groupId" AND ug."userId"=${userId}
+        WHERE ue."userId"=${userId}
+        ORDER BY e.floor
+        ;
+    `
+}
+
 async function getEventsByGroup(groupId:number) {
     return await prisma.$queryRaw`
-        SELECT e.id, e.title , e.begin , e.end , e.floor , e.size , e.day  , ug1.color , a.tag, ue."userId" 
+        SELECT e.* , ug1.color , a.tag, ue."userId" 
         FROM event e
         JOIN "userEvent" ue ON ue."eventId"=e.id
         
@@ -38,6 +50,14 @@ async function getEventsByGroup(groupId:number) {
     ;`
 }
 
+async function erase(id:number) {
+    await prisma.event.delete({
+        where:{
+            id
+        }
+    })
+}
+
 export const eventRepository={
-    post,findBy_groupId_title,getEventsByGroup
+    post,findBy_groupId_title,getEventsByGroup,getMyEvents,erase
 }

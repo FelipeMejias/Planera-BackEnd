@@ -6,7 +6,7 @@ const userGroupRouter=Router()
 
 userGroupRouter.post('/userGroup/:groupId',checkGroupMembership,userGroupController.post)
 
-userGroupRouter.get('/userGroup',userGroupController.get)
+userGroupRouter.get('/userGroup',userGroupController.getMyGroups)
 userGroupRouter.put('/userGroup/:id/acept',userGroupController.acept)
 userGroupRouter.delete('/userGroup/:id/reject',userGroupController.reject)
 
