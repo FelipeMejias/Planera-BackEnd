@@ -8,6 +8,13 @@ async function post(req:Request,res:Response) {
     res.sendStatus(201)
 }
 
+/* async function quest(req:Request,res:Response) {
+    const data=req.body
+    const groupId=parseInt(req.params.groupId)
+    const response=await eventService.quest(data,groupId)
+    res.status(200).send(response)
+} */
+
 async function getMyEvents(req:Request,res:Response) {
     const {id:userId}=res.locals.user
     const response=await eventService.getUserEvents(userId)

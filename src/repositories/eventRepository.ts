@@ -27,7 +27,7 @@ async function findBy_groupId_title(title:string,groupId:number) {
 
 async function getMyEvents(userId:number) {
     return await prisma.$queryRaw`
-        SELECT e.* , ug.color, ug.color
+        SELECT e.* , ug.color
         FROM "userEvent" ue
         JOIN event e ON e.id=ue."eventId"
         JOIN "userGroup" ug ON ug."groupId"=e."groupId" AND ug."userId"=${userId}

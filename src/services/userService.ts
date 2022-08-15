@@ -7,6 +7,8 @@ import { sessionRepository } from "../repositories/sessionRepository.js";
 export type UserData=Omit<User,'id'>
 
 async function signUp(data:UserData) {
+    const conflictUser=await userRepository.findByName(data.name)
+    if(conflictUser)throw{type:'conflict',message:'Este nome já está em uso. Escolha outro'}
     const SALT=10
     data.password=bcrypt.hashSync(data.password,SALT)
     await userRepository.insert(data)
@@ -14,8 +16,7 @@ async function signUp(data:UserData) {
 
 async function signIn(data:UserData) {
     const user=await userRepository.findByName(data.name)
-    if(!user)throw{type:'not found'}
-    if(!bcrypt.compareSync(data.password,user.password))throw{type:'unauthorized'}
+    if(!user || !bcrypt.compareSync(data.password,user.password))throw{type:'unauthorized',message:'Nome ou senha incorretos'}
     const token=tokenGenerator()
     await sessionRepository.post({token,userId:user.id})
     return {token,user}

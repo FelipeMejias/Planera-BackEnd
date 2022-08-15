@@ -7,9 +7,12 @@ export type GroupColors='orange'|'pink'|'aqua'
 
 async function addMember(groupId:number,guest:string) {
     const user= await userRepository.findByName(guest)
-    if(!user)throw {type:'not found'}
+    if(!user)throw {type:'not found',message:`O usuário ${guest} não existe`}
+    const ug=await userGroupRepository.findBy_User_Group(groupId,user.id)
+    if(ug)throw{type:'conflict',message:`O usuário ${guest} já está no grupo`}
     await userGroupRepository.insert(groupId,user.id)
 }
+
 
 async function get(userId:number) {
     const invitation= await userGroupRepository.getFirstInvitation(userId)

@@ -1,6 +1,6 @@
 import { eventRepository } from "../repositories/eventRepository.js"
 import { userEventRepository } from "../repositories/userEventRepository.js"
-import { graphicMark } from "../utils/habitEventUtil.js"
+import { graphicMark } from "../utils/time_lenguage.js"
 
 export type EventData={
     title:string;
@@ -21,6 +21,13 @@ async function post(data:EventData,groupId:number) {
     await userEventRepository.insertMany(chosenData)
 }
 
+/* async function quest(data:EventData,groupId:number) {
+    const {chosen}=data
+    const graphicData=graphicMark(data)
+    const x=0
+    //const result=await eventRepository.quest(graphicData)
+}
+ */
 async function getUserEvents(userId:number) {
     return await eventRepository.getMyEvents(userId)
 }
