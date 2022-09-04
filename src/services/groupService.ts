@@ -7,7 +7,8 @@ export type GroupData={
 
 async function post(data:GroupData,userId:number) {
     await groupRepository.post(data,userId)
-    const {id}=await groupRepository.findByName(data.name)
+    const result=await groupRepository.findByName(data.name)
+    const {id}=result[result.length-1]
     await userGroupRepository.insertCreator(id,userId)
 }
 

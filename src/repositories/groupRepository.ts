@@ -7,7 +7,7 @@ async function post(data:any,userId:number) {
 }
 
 async function findByName(name:string) {
-    return await prisma.group.findFirst({
+    return await prisma.group.findMany({
         where:{name}
     })
 }
