@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.ts",
+  "main": "dist/index.ts",
   "scripts": {
     "build": "tsc",
     "prisma:migrate": "prisma migrate deploy",
