@@ -1,7 +1,7 @@
 import joi from 'joi'
 import { EventData } from '../services/eventService'
 
-const regex=/^([0-9]{2},[0-9]{2}|[0-9]{2}:[0-9]{2}|[0-9]{1},[0-9]{2}|[0-9]{1}:[0-9]{2}|[0-9]{2}|[0-9]{1})$/
+const regex=/^([0-9]{2},[0-9]{2}|[0-9]{2}:[0-9]{2}|[0-9]{2}.[0-9]{2}|[0-9]{1},[0-9]{2}|[0-9]{1}:[0-9]{2}|[0-9]{1}.[0-9]{2}|[0-9]{2}|[0-9]{1})$/
 
 export const schema=joi.object<EventData>({
     title:joi.string().required(),

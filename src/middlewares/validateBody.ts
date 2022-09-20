@@ -6,6 +6,7 @@ export  function validateBody(schema:any) {
         const {error}=schema.validate(req.body)
         if(error){
             const label=error.details[0].context.label
+            console.log(error)
             if(label==='end'||label==='begin')throwTimePatternError()
             throw{type:'bad request',message:`Preencha corretamente o campo: ${translate(label)}`}
         }

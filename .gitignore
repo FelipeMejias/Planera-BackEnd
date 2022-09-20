@@ -1,4 +1,6 @@
 node_modules
-tests
+tests/
+.env.docker
+.env.testsjest.config.js
 # Keep environment variables out of version control
 .env

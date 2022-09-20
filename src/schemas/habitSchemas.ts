@@ -1,7 +1,7 @@
 import joi from 'joi'
 import { ChangeHabitData, HabitData } from '../services/habitService'
 
-const regex=/^([0-9]{2},[0-9]{2}|[0-9]{2}:[0-9]{2}|[0-9]{1},[0-9]{2}|[0-9]{1}:[0-9]{2}|[0-9]{2}|[0-9]{1})$/
+const regex=/^([0-9]{2},[0-9]{2}|[0-9]{2}:[0-9]{2}|[0-9]{2}.[0-9]{2}|[0-9]{1},[0-9]{2}|[0-9]{1}:[0-9]{2}|[0-9]{1}.[0-9]{2}|[0-9]{2}|[0-9]{1})$/
 
 export const postSchema=joi.object<HabitData>({
     title:joi.string().required(),
