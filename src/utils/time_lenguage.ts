@@ -1,8 +1,7 @@
 export function throwTimePatternError(){
     throw{type:'bad request',message:`
         
-        Para escolher o horário de 15 horas, por exemplo, 
-         escreva 15,00 ou 15
+        To choose for example the time of 15:00, you can type 15 or 15:00 or 15.00 or 15,00
     `}
 }
 
@@ -14,7 +13,7 @@ export function graphicMark(item:any){
 
     if(graphBegin<0 || graphEnd>2400)throwTimePatternError()
     const distance=graphEnd-graphBegin
-    if(distance<=0)throw{type:'bad request',message:'O horário final deve ser mais tarde que o início'}
+    if(distance<=0)throw{type:'bad request',message:'Time of end must be bigger than time of begin'}
 
     return {...item,
         begin:formatTime(begin),
