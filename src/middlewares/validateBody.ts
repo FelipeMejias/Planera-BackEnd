@@ -8,7 +8,7 @@ export  function validateBody(schema:any) {
             const label=error.details[0].context.label
             console.log(error)
             if(label==='end'||label==='begin')throwTimePatternError()
-            throw{type:'bad request',message:`Preencha corretamente o campo: ${translate(label)}`}
+            throw{type:'bad request',message:`Complete correctly the field:: ${label}`}
         }
         
         next()

@@ -13,5 +13,5 @@ export async function handleError(error:any,req:Request,res:Response,next:NextFu
         return res.status(code).send(message)
     }
     console.log(error)
-    res.status(400).send('Nosso servidor está fora do ar')
+    res.status(400).send('An unexpectly error ocurred')
 }
