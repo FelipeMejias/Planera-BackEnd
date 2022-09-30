@@ -17,6 +17,7 @@ model User {
   habit     Habit[]
   session   Session[]
   userGroup UserGroup[]
+  group     Group[]
   allow     Allow[]
   userEvent UserEvent[]
 
@@ -51,6 +52,10 @@ model Group{
   alow      Allow[]
   event     Event[]
 
+  creator    User    @relation(fields:[creatorId],references:[id])
+  creatorId Int
+
+  @@unique([name,creatorId])
   @@map("group")
 }
 model UserGroup {

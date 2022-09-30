@@ -1,14 +1,14 @@
 import { prisma } from "../database.js";
 
-async function post(data:any,userId:number) {
+async function post(data:any) {
     await prisma.group.create({
         data
     })
 }
 
-async function findByName(name:string) {
-    return await prisma.group.findMany({
-        where:{name}
+async function findByNameAndCreator(name:string,creatorId:number) {
+    return await prisma.group.findUnique({
+        where:{name_creatorId:{name,creatorId}}
     })
 }
 
@@ -19,5 +19,5 @@ async function erase(id:number) {
 }
 
 export const groupRepository={
-    post,findByName,erase
+    post,findByNameAndCreator,erase
 }

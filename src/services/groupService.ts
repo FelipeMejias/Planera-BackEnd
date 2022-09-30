@@ -6,10 +6,9 @@ export type GroupData={
 }
 
 async function post(data:GroupData,userId:number) {
-    await groupRepository.post(data,userId)
-    const result=await groupRepository.findByName(data.name)
-    const {id}=result[result.length-1]
-    await userGroupRepository.insertCreator(id,userId)
+    await groupRepository.post({...data,creatorId:userId})
+    const group=await groupRepository.findByNameAndCreator(data.name,userId)
+    await userGroupRepository.insertCreator(group.id,userId)
 }
 
 async function getAll(userId:number) {
