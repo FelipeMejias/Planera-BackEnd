@@ -9,8 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
+    "prisma:reset": "prisma migrate reset",
     "prisma:migrate": "prisma migrate deploy",
-    "start": "npm run prisma:migrate && node dist/server.js",
+    "start": "npm run prisma:reser && node dist/server.js",
     "dev": "nodemon src/server.ts",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest -i "
   },
