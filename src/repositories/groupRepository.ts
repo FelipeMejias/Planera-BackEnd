@@ -7,8 +7,8 @@ async function post(data:any) {
 }
 
 async function findByNameAndCreator(name:string,creatorId:number) {
-    return await prisma.group.findUnique({
-        where:{name_creatorId:{name,creatorId}}
+    return await prisma.group.findFirst({
+        where:{name,creatorId}
     })
 }
 

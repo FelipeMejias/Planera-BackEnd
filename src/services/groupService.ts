@@ -6,6 +6,8 @@ export type GroupData={
 }
 
 async function post(data:GroupData,userId:number) {
+    const possibleGroup=await groupRepository.findByNameAndCreator(data.name,userId)
+    if(possibleGroup)throw{type:'conflict',message:'You have already created a group with this name'}
     await groupRepository.post({...data,creatorId:userId})
     const group=await groupRepository.findByNameAndCreator(data.name,userId)
     await userGroupRepository.insertCreator(group.id,userId)

@@ -34,7 +34,7 @@ async function getUserEvents(userId:number) {
 
 async function eraseUserEvent(userId:number,eventId:number) {
     await userEventRepository.erase(userId,eventId)
-    ifEmpty_deleteEvent
+    ifEmpty_deleteEvent(eventId)
 }
 
 async function ifEmpty_deleteEvent(eventId:number) {
